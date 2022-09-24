@@ -47,43 +47,41 @@ void setup() {
 
 void loop() {
   scale.set_scale(calibration_factor); //Adjust to this calibration factor 
-  weight = scale.get_units(); 
+  weight = scale.get_units();  //gets the reading and store it in the variable
   
   //Check WiFi connection status
   if(WiFi.status()== WL_CONNECTED){
     WiFiClient client;
     HTTPClient http;
     
-  String sendRequest = serverName + "?value=" + String(weight); 
+    String sendRequest = serverName + "?value=" + String(weight);  //concatenate the value with servername to send get request
     
-//    http.addHeader("Content-Type", "application/x-www-form-urlencoded"); 
     http.begin(client, sendRequest.c_str()); // Your Domain name with URL path or IP address with path
     
-     int httpResponseCode = http.GET(); //send request
+    int httpResponseCode = http.GET(); //send request
      
-    // Prepare your HTTP POST request data
+    //Shows the request sent in Serial Monitor
     Serial.print("sendRequest: ");
     Serial.println(sendRequest);
-      
+    
+    //if request is sent successfully
     if (httpResponseCode>0) {
       Serial.print("HTTP Response code: ");
-      Serial.println(sendRequest);
-      String payload = http.getString();
-      Serial.println(payload);
+      String payload = http.getString(); //get response from request
+      Serial.println(payload); //display response of request in serial monitor
     }
     else {
       Serial.print("Error code: ");
-      Serial.println(httpResponseCode);
+      Serial.println(httpResponseCode); //prints error code is request is uncesseffull
     }
 
     Serial.println(" "); //empty line in serial monitor
     
-    // Free resources
     http.end();
   }
   else {
     Serial.println("WiFi Disconnected");
   }
-  //Send an HTTP POST request every 5 seconds
-  delay(5000);  
+  //Send an HTTP POST request every 15 seconds
+  delay(15000);  
 }

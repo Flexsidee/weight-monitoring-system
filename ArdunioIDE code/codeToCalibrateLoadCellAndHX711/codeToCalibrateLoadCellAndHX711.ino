@@ -1,13 +1,12 @@
-#include "HX711.h"  //You must have this library in your arduino library folder
+#include "HX711.h"  //libray for the hx711
 
-
+//this is used to set the pins
 static const uint8_t D5   = 14;
 static const uint8_t D6   = 12;
-
 #define DOUT  D5
 #define CLK  D6
  
-HX711 scale;
+HX711 scale; //this is from the hx711 library and its required 
  
 //Change this calibration factor as per your load cell once it is found you many need to vary it in thousands
 float calibration_factor = 23879; //-106600 worked for my 40Kg max scale setup 
